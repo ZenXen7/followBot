@@ -28,13 +28,13 @@ class Setting(models.Model):
             exists = False
 
         if exists:
-            # Make sure we want to override.
+           
             if not override:
                 return 
         else:
             item = Setting(key = key)
 
-        # Set value and save.
+     
         item.val = val
         item.save()
 
@@ -142,20 +142,20 @@ class Target_User(models.Model):
         return res
 
     async def unfollow_user(self, user):
-        # Check if we should unfollow.
+      
         if not self.allow_unfollow:
             return
 
-        # Make connection GitHub's API.
+     
         if back_bone.parser.api is None:
             back_bone.parser.api = ga.GH_API()
 
-        # Authenticate
+       
         back_bone.parser.api.authenticate(self.user.username, self.token)
 
         res = None
 
-        # Send request.
+       
         try:
             res = await back_bone.parser.api.send('DELETE', '/user/following/' + user.username)
         except Exception as e:
@@ -166,7 +166,7 @@ class Target_User(models.Model):
 
             return
 
-        # Check status code.
+      
         if res[1] != 200 and res[1] != 204:
             await back_bone.parser.do_fail()
 
@@ -174,11 +174,11 @@ class Target_User(models.Model):
 
         following = await self.get_following(user)
 
-        # Set user as purged.
+      
         if following is not None:
             following.purged = True
 
-            # Save.
+         
             await sync_to_async(following.save)()
 
         if int(await sync_to_async(Setting.get)(key = "verbose")) >= 2:
@@ -223,7 +223,7 @@ class Seeder(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
 
     def save(self, *args, **kwargs):
-        # We need to seed user.
+      
         self.user.needs_to_seed = True
     
         try:

@@ -12,11 +12,11 @@ class GfConfig(AppConfig):
     def ready(self):
         env = os.environ.get("FIRST_THREAD")
 
-        # Check if first thread has started since we want to spin it up on the second thread in development.
+      
         if env is not None:
             from .models import Setting
 
-            # Set settings. defaults.
+          
             Setting.create("enabled", "0", False)
             Setting.create("max_scan_users", "10", False)
             Setting.create("wait_time_follow_min", "10", False)

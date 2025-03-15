@@ -17,7 +17,7 @@ class GH_API():
         self.response_code = 0
         self.fails = 0
 
-        # Default user agent.
+    
         user_agent = mdl.Setting.get("user_agent")
 
         if user_agent is None:
@@ -41,7 +41,7 @@ class GH_API():
         # Make connection.
         conn = aiohttp.ClientSession()
 
-        # Insert additional headers.
+     
         if self.headers is not None:
             for k, v in self.headers.items():
                 headers[k] = v
@@ -50,7 +50,7 @@ class GH_API():
         status = None
         failed = False
 
-        # Send request.
+
         try:
             if method == "POST":
                 res = await conn.post(self.endpoint + url, headers = headers)
@@ -69,7 +69,7 @@ class GH_API():
             status = res.status
             res = await res.text()
 
-        # Close connection.
+   
         try:
             await conn.close()
         except Exception as e:
@@ -78,9 +78,9 @@ class GH_API():
 
             return [None, 0]
         else:
-            # Set fails to 0 indicating we closed the connection.
+          
             if not failed and res is not None:
                 self.fails = 0
         
-        # Return list (response, response code)
+      
         return [res, status]

@@ -292,16 +292,16 @@ class Parser(threading.Thread):
         secs_in_day = 86400
 
         while True:
-            # Retrieve target users.
+            
             target_users = await self.get_target_users()
 
-            # Loop through target users.
+            
             for tuser in target_users:
-                # Make sure cleanup days is above 0 (enabled).
+                
                 if tuser.cleanup_days < 1:
                     continue
 
-                # Retrieve the target user's following list.
+              
                 users = None
 
                 try:
@@ -309,27 +309,27 @@ class Parser(threading.Thread):
                 except Exception:
                     users = None
 
-                # Make sure we have users and loop.
+              
                 if users is not None:
                     for user in users:
                         now = datetime.datetime.now().timestamp()
                         expired = user.time_added.timestamp() + (tuser.cleanup_days * secs_in_day)
 
-                        # Check if we're expired.
+                   
                         if now > expired:
                             if int(await self.get_setting("verbose")) >= 3:
                                 print("[VVV] " + user.user.username + " has expired.")
 
-                            # Unfollow used and mark them as purged.
+                         
                             await tuser.unfollow_user(user.user)
 
-                            # Set purged to true.
+                           
                             user.purged = True
 
-                            # Save user.
+                          
                             await sync_to_async(user.save)()
 
-                            # Wait follow time.
+                           
                             await asyncio.sleep(float(random.randint(int(await self.get_setting("wait_time_follow_min")), int(await self.get_setting("wait_time_follow_max")))))
 
             await asyncio.sleep(float(random.randint(int(await self.get_setting("wait_time_list_min")), int(await self.get_setting("wait_time_list_max")))))
@@ -347,16 +347,16 @@ class Parser(threading.Thread):
                 if self.api is None:
                     self.api = ga.GH_API()
 
-                # Authenticate.
+               
                 self.api.authenticate(user.user.username, user.token)
                 
                 page = 1
 
-                # We'll want to create a loop through of the target user's followers.
+              
                 while True:
                     res = None
 
-                    # Make connection.
+                    
                     try:
                         res = await self.api.send("GET", '/user/followers?page=' + str(page))
                     except Exception as e:
@@ -367,7 +367,7 @@ class Parser(threading.Thread):
 
                         break
 
-                    # Check status code.
+                  
                     if res[1] != 200 and res[1] != 204:
                         await self.do_fail()
 

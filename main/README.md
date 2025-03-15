@@ -74,7 +74,6 @@ Inside of the web interface, a settings model should be visible. The following s
 Installation should be performed like a regular Django application. This application uses SQLite as the database. You can read more about Django [here](https://docs.djangoproject.com/en/4.0/intro/tutorial01/). I would recommend the following commands.
 
 ```bash
-# Make sure Django and aiohttp are installed for this user.
 
 # Clone repository.
 git clone https://github.com/gamemann/GitHub-Follower-Bot.git
@@ -85,11 +84,8 @@ cd GitHub-Follower-Bot/src/github_follower
 # Migrate database.
 python3 manage.py migrate
 
-# Run the development server on any IP (0.0.0.0) as port 8000.
-# NOTE - If you don't want to expose the application publicly, bind it to a LAN IP instead (e.g. 10.50.0.4:8000 instead 0f 0.0.0.0:8000).
 python3 manage.py runserver 0.0.0.0:8000
 
-# Create super user for admin web interface.
 python3 manage.py createsuperuser
 ```
 
